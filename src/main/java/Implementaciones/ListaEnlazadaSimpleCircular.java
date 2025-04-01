@@ -1,60 +1,43 @@
-package Implementaciones; // O el paquete que prefieras
+package Implementaciones; 
 
-import Nodo.NodoSimple;
-
+import Nodo.NodoSimple; 
 import java.util.NoSuchElementException;
 
 /**
- * Implementación de una Lista Enlazada Simple Circular (LESC).
- * Los elementos se enlazan unidireccionalmente y el último nodo apunta al primero.
- * Se mantiene una referencia al último nodo para operaciones eficientes.
- *
- * @param <E> Tipo de elementos que contendrá la lista.
+ * Lista Enlazada Simple Circular (LESC).
+ * @param <E> Tipo de elementos.
  */
 public class ListaEnlazadaSimpleCircular<E> {
 
-    public NodoSimple<E> ultimo; // Referencia al último nodo. Desde él se accede al primero (ultimo.getSiguiente())
-    private int contador;       // Número de elementos en la lista.
+   
+    public NodoSimple<E> ultimo;
+    private int contador;      
 
-    /**
-     * Constructor para crear una LESC vacía.
-     * @pre No se requieren condiciones previas.
-     * @post Se crea una instancia de LESC vacía ('ultimo' es null, 'contador' es 0).
-     */
+    /** Crea una LESC vacía. */
     public ListaEnlazadaSimpleCircular() {
         this.ultimo = null;
         this.contador = 0;
     }
 
     /**
-     * Verifica si la lista no contiene elementos.
-     * @return true si la lista está vacía, false en caso contrario.
-     * @pre La lista ha sido inicializada.
-     * @post Devuelve un booleano indicando si la lista está vacía, sin modificarla.
+     * Verifica si la lista esta vacia.
+     * @return true si esta vacia.
      */
     public boolean isEmpty() {
         return contador == 0;
-        // Alternativamente: return ultimo == null;
     }
 
     /**
-     * Devuelve el número de elementos en la lista.
-     * @return El tamaño actual de la lista.
-     * @pre La lista ha sido inicializada.
-     * @post Devuelve el valor del contador sin modificar la lista.
+     * Devuelve el numero de elementos.
+     * @return Tamano de la lista.
      */
     public int size() {
         return contador;
     }
 
     /**
-     * Añade un elemento al principio de la lista.
-     * @param dato El elemento a añadir.
-     * @pre La lista ha sido inicializada. 'dato' es del tipo E.
-     * @post El 'dato' se añade como nuevo primer elemento. El tamaño ('contador')
-     * se incrementa. Si estaba vacía, 'ultimo' apunta al nuevo nodo y este
-     * se apunta a sí mismo. Si no, se ajustan los punteros 'siguiente' del
-     * 'ultimo' nodo y del nuevo nodo.
+     * Anade un elemento al principio.
+     * @param dato Elemento a anadir.
      */
     public void addFirst(E dato) {
         NodoSimple<E> nuevoNodo = new NodoSimple<>(dato);
@@ -69,13 +52,8 @@ public class ListaEnlazadaSimpleCircular<E> {
     }
 
     /**
-     * Añade un elemento al final de la lista.
-     * @param dato El elemento a añadir.
-     * @pre La lista ha sido inicializada. 'dato' es del tipo E.
-     * @post El 'dato' se añade como nuevo último elemento. El tamaño ('contador')
-     * se incrementa. Si estaba vacía, 'ultimo' apunta al nuevo nodo y este
-     * se apunta a sí mismo. Si no, se ajustan los punteros 'siguiente' del
-     * antiguo 'ultimo' y del nuevo nodo, y se actualiza 'ultimo'.
+     * Anade un elemento al final.
+     * @param dato Elemento a anadir.
      */
     public void addLast(E dato) {
         NodoSimple<E> nuevoNodo = new NodoSimple<>(dato);
@@ -91,15 +69,9 @@ public class ListaEnlazadaSimpleCircular<E> {
     }
 
     /**
-     * Elimina y devuelve el primer elemento de la lista.
-     * @return El primer elemento eliminado.
-     * @throws NoSuchElementException si la lista está vacía.
-     * @pre La lista ha sido inicializada.
-     * @post Si no está vacía, se elimina el primer nodo (apuntado por ultimo.getSiguiente()).
-     * El tamaño ('contador') decrece. Se devuelve el dato eliminado.
-     * Si solo había un elemento, 'ultimo' se vuelve null. Si había más,
-     * 'ultimo' apunta su 'siguiente' al segundo nodo original.
-     * Si está vacía, lanza NoSuchElementException.
+     * Elimina y devuelve el primer elemento.
+     * @return El primer elemento.
+     * @throws NoSuchElementException Si la lista esta vacia.
      */
     public E removeFirst() {
         if (isEmpty()) {
@@ -118,16 +90,9 @@ public class ListaEnlazadaSimpleCircular<E> {
     }
 
     /**
-     * Elimina y devuelve el último elemento de la lista.
-     * Requiere recorrer la lista para encontrar el penúltimo nodo (O(n)).
-     * @return El último elemento eliminado.
-     * @throws NoSuchElementException si la lista está vacía.
-     * @pre La lista ha sido inicializada.
-     * @post Si no está vacía, se elimina el último nodo ('ultimo'). El tamaño ('contador')
-     * decrece. Se devuelve el dato eliminado. Si solo había un elemento, 'ultimo'
-     * se vuelve null. Si había más, se localiza el penúltimo nodo, se actualiza
-     * 'ultimo' a este penúltimo y se ajusta su puntero 'siguiente' para que
-     * apunte a la cabeza. Si está vacía, lanza NoSuchElementException.
+     * Elimina y devuelve el ultimo elemento. (O(n))
+     * @return El ultimo elemento.
+     * @throws NoSuchElementException Si la lista esta vacia.
      */
     public E removeLast() {
         if (isEmpty()) {
@@ -135,100 +100,71 @@ public class ListaEnlazadaSimpleCircular<E> {
         }
         E datoEliminado = ultimo.getDato();
 
-        if (contador == 1) { // O if (ultimo.getSiguiente() == ultimo)
+        if (contador == 1) { 
             ultimo = null;
         } else {
             // Encontrar el penúltimo nodo
-            NodoSimple<E> penultimo = ultimo; // Empezar búsqueda desde uno antes conceptualmente
-            // Iteramos contador-1 veces desde la cabeza para llegar al penúltimo
-            NodoSimple<E> actual = ultimo.getSiguiente(); // Cabeza
-            for(int i = 0; i < contador - 2; i++) { // Llegar al nodo ANTES del último
+            NodoSimple<E> actual = ultimo.getSiguiente(); 
+            for(int i = 0; i < contador - 2; i++) { 
                  actual = actual.getSiguiente();
             }
-            penultimo = actual; // Este es el penúltimo
-            penultimo.setSiguiente(ultimo.getSiguiente()); // Penúltimo apunta a la cabeza
-            ultimo = penultimo; // Actualizar último
+            // actual es ahora el penultimo
+            actual.setSiguiente(ultimo.getSiguiente());
+            ultimo = actual;
         }
         contador--;
         return datoEliminado;
     }
 
     /**
-     * Comprueba si la lista contiene el elemento especificado.
-     * Usa el método equals() para la comparación.
-     * @param dato El elemento a buscar.
-     * @return true si el elemento está en la lista, false en caso contrario.
-     * @pre La lista ha sido inicializada.
-     * @post Devuelve un booleano indicando la presencia del elemento, sin modificar la lista.
-     * Rendimiento O(n).
+     * Comprueba si la lista contiene el elemento.
+     * @param dato Elemento a buscar.
+     * @return true si el elemento existe.
      */
     public boolean contains(E dato) {
         if (isEmpty()) {
             return false;
         }
-        NodoSimple<E> actual = ultimo.getSiguiente(); // Empezar en la cabeza
+        NodoSimple<E> actual = ultimo.getSiguiente(); 
         for (int i = 0; i < contador; i++) {
-            // Manejo cuidadoso de nulls
             if (dato == null) {
-                if (actual.getDato() == null) {
-                    return true;
-                }
+                if (actual.getDato() == null) return true;
             } else {
-                if (dato.equals(actual.getDato())) {
-                    return true;
-                }
+                if (dato.equals(actual.getDato())) return true;
             }
             actual = actual.getSiguiente();
         }
-        return false; // No encontrado después de recorrer
+        return false; // No encontrado
     }
 
     /**
-     * Obtiene el elemento en la posición especificada (índice).
-     * @param index Índice del elemento a obtener (base 0).
-     * @return El elemento en la posición dada.
-     * @throws IndexOutOfBoundsException si el índice es inválido (index < 0 || index >= size()).
-     * @pre La lista ha sido inicializada. El índice es un entero.
-     * @post Devuelve el elemento en la posición 'index' sin modificar la lista.
-     * Lanza IndexOutOfBoundsException si el índice no es válido. Rendimiento O(n).
+     * Obtiene el elemento en el indice dado.
+     * @param index Indice (base 0).
+     * @return El elemento en esa posicion.
+     * @throws IndexOutOfBoundsException Si el indice es invalido.
      */
     public E getElement(int index) {
         if (index < 0 || index >= contador) {
             throw new IndexOutOfBoundsException("Índice fuera de rango: " + index + ", Tamaño: " + contador);
         }
-        if (isEmpty()) {
-             // Esta condición es redundante debido a la validación anterior si index >= 0
-             // pero se mantiene por claridad si se pensara en índices negativos.
-             throw new IndexOutOfBoundsException("Índice " + index + " inválido para lista vacía.");
-        }
+        
 
-        NodoSimple<E> actual = ultimo.getSiguiente(); // Empezar en la cabeza
+        NodoSimple<E> actual = ultimo.getSiguiente(); 
         for (int i = 0; i < index; i++) {
             actual = actual.getSiguiente();
         }
         return actual.getDato();
     }
 
-    /**
-     * Elimina todos los elementos de la lista, dejándola vacía.
-     * @pre La lista ha sido inicializada.
-     * @post La lista queda vacía. 'ultimo' es null, 'contador' es 0.
-     * Los nodos anteriores quedan disponibles para el recolector de basura.
-     */
+    /** Elimina todos los elementos de la lista. */
     public void clear() {
         ultimo = null;
         contador = 0;
-        // No es estrictamente necesario romper todos los enlaces en Java
-        // gracias al recolector de basura, pero establecer ultimo a null es clave.
     }
 
     /**
-     * Devuelve una representación en String de la lista circular.
-     * Muestra los elementos desde la cabeza hasta el último.
-     * Formato: [elemento1, elemento2, ..., elementoN]
-     * @return La representación textual de la lista.
-     * @pre La lista ha sido inicializada.
-     * @post Devuelve una cadena representando la lista sin modificarla. O(n).
+     * Devuelve la representacion String de la lista.
+     * @return Cadena con formato [elem1, elem2, ...].
      */
     @Override
     public String toString() {
@@ -237,18 +173,15 @@ public class ListaEnlazadaSimpleCircular<E> {
         }
         StringBuilder sb = new StringBuilder();
         sb.append("[");
-        NodoSimple<E> actual = ultimo.getSiguiente(); // Empezar en la cabeza
+        NodoSimple<E> actual = ultimo.getSiguiente();
         for (int i = 0; i < contador; i++) {
             sb.append(actual.getDato() == null ? "null" : actual.getDato().toString());
-            if (i < contador - 1) { // Añadir coma excepto después del último
-                sb.append(", ");
+            if (i < contador - 1) {
+                 sb.append(", "); // Asegurarse de añadir la coma y el espacio
             }
             actual = actual.getSiguiente();
         }
         sb.append("]");
         return sb.toString();
     }
-
-     // --- Ejemplo de uso (Método main) ---
-    
-    }
+}
